@@ -18,13 +18,12 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: Coding in life
+title: Coding life
 email: liuguozhu720@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
- Coding for fun, coding for job, coding for change the world.
+ Coding for fun, coding for life, coding for change the world.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: jekyllrb
 github_username:  faramita2
 
 # Build settings
