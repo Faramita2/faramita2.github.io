@@ -1,17 +1,211 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2019-11-26T21:08:25+08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Your awesome title</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Welcome to Jekyll!</title><link href="http://localhost:4000/jekyll/update/2019/11/26/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to Jekyll!" /><published>2019-11-26T21:05:53+08:00</published><updated>2019-11-26T21:05:53+08:00</updated><id>http://localhost:4000/jekyll/update/2019/11/26/welcome-to-jekyll</id><content type="html" xml:base="http://localhost:4000/jekyll/update/2019/11/26/welcome-to-jekyll.html">&lt;p&gt;You’ll find this post in your &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-03-21T22:00:50+08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Coding in life</title><subtitle>Coding for fun, coding for job, coding for change the world.</subtitle><entry><title type="html">伪静态是什么玩意</title><link href="http://localhost:4000/2020/03/05/%E4%BC%AA%E9%9D%99%E6%80%81%E6%98%AF%E4%BB%80%E4%B9%88%E7%8E%A9%E6%84%8F.html" rel="alternate" type="text/html" title="伪静态是什么玩意" /><published>2020-03-05T00:00:00+08:00</published><updated>2020-03-05T00:00:00+08:00</updated><id>http://localhost:4000/2020/03/05/%E4%BC%AA%E9%9D%99%E6%80%81%E6%98%AF%E4%BB%80%E4%B9%88%E7%8E%A9%E6%84%8F</id><content type="html" xml:base="http://localhost:4000/2020/03/05/%E4%BC%AA%E9%9D%99%E6%80%81%E6%98%AF%E4%BB%80%E4%B9%88%E7%8E%A9%E6%84%8F.html">&lt;p&gt;一直有看到“伪静态”这个词出现在很多地方，比如nginx服务器配置的地方就有，但是没能理解，这个玩意是干什么的。有言道“不懂就问问就懂，无知就学学就知”，今天总算是查清楚并大概搞明白这玩意是什么，作用是什么。&lt;/p&gt;
 
-&lt;p&gt;Jekyll requires blog post files to be named according to the following format:&lt;/p&gt;
+&lt;h1 id=&quot;伪静态是什么意思&quot;&gt;伪静态是什么意思&lt;/h1&gt;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;YEAR-MONTH-DAY-title.MARKUP&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;伪静态，根据百度百科的定义：&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;伪静态是相对真实静态来讲的，通常我们为了增强搜索引擎的友好面，都将文章内容生成静态页面，但是有的朋友为了实时的显示一些信息。或者还想运用动态脚本解决一些问题。不能用静态的方式来展示网站内容。但是这就损失了对搜索引擎的友好面。怎么样在两者之间找个中间方法呢，这就产生了伪静态技术。伪静态技术是指展示出来的是以html一类的静态页面形式，但其实是用ASP一类的动态脚本来处理的。&lt;/p&gt;
+&lt;/blockquote&gt;
 
-&lt;p&gt;Where &lt;code class=&quot;highlighter-rouge&quot;&gt;YEAR&lt;/code&gt; is a four-digit number, &lt;code class=&quot;highlighter-rouge&quot;&gt;MONTH&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;DAY&lt;/code&gt; are both two-digit numbers, and &lt;code class=&quot;highlighter-rouge&quot;&gt;MARKUP&lt;/code&gt; is the file extension representing the format used in the file. After that, include the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
+&lt;p&gt;翻译成通俗的话，核心就是为了搜索引擎友好而产生的一种利用web服务器重写URL的技术。使原本由动态脚本产生的web页面的URL被重写为类似静态页面URL的格式。&lt;/p&gt;
 
-&lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
+&lt;h1 id=&quot;伪静态用来做什么&quot;&gt;伪静态用来做什么&lt;/h1&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Hi, &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Tom'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints 'Hi, Tom' to STDOUT.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;看了半天，答案就只有一个也很简单呢，为了SEO，也就是搜索引擎优化的友好。详细来说是因为动态页面URL都比较复杂，搜索引擎收录的规则嫌弃这种复杂的URL，也会带来很多麻烦，对于静态页面就很友好，收录的机会更多。&lt;/p&gt;
 
-&lt;p&gt;Check out the &lt;a href=&quot;https://jekyllrb.com/docs/home&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://talk.jekyllrb.com/&quot;&gt;Jekyll Talk&lt;/a&gt;.&lt;/p&gt;</content><author><name></name></author><summary type="html">You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run jekyll serve, which launches a web server and auto-regenerates your site when a file is updated.</summary></entry></feed>
+&lt;h1 id=&quot;伪静态的缺点&quot;&gt;伪静态的缺点&lt;/h1&gt;
+
+&lt;p&gt;看完了伪静态的定义和作用后。还瞄到了伪静态的缺点。&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;从伪静态页面产生的过程就可以明白，因为重写URL这一步，相对于原本动态页面不需要重写URL比较，多了一步就多了一些开销&lt;/li&gt;
+  &lt;li&gt;多个动态页面的URL都被重写成一个相同的URL，页面就有了许多重复&lt;/li&gt;
+  &lt;li&gt;CPU消耗增大，说是匹配URL的工作都要让CPU去正则匹配了，负载就上升&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h1 id=&quot;总结&quot;&gt;总结&lt;/h1&gt;
+&lt;p&gt;伪静态就是把动态页面的URL重写成静态页面URL的一种技术，目的是为了搜索引擎优化，然后这种技术的使用是有代价的。不过在一些特别的网站，比如访问量不是很大，需要搜索引擎收录的企业门户网站等等可以很好的收到效果。&lt;/p&gt;</content><author><name></name></author><summary type="html">一直有看到“伪静态”这个词出现在很多地方，比如nginx服务器配置的地方就有，但是没能理解，这个玩意是干什么的。有言道“不懂就问问就懂，无知就学学就知”，今天总算是查清楚并大概搞明白这玩意是什么，作用是什么。</summary></entry><entry><title type="html">Java字符串的比较</title><link href="http://localhost:4000/2020/03/02/Java%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%AF%94%E8%BE%83.html" rel="alternate" type="text/html" title="Java字符串的比较" /><published>2020-03-02T00:00:00+08:00</published><updated>2020-03-02T00:00:00+08:00</updated><id>http://localhost:4000/2020/03/02/Java%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%AF%94%E8%BE%83</id><content type="html" xml:base="http://localhost:4000/2020/03/02/Java%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%AF%94%E8%BE%83.html">&lt;h1 id=&quot;java字符串的比较&quot;&gt;Java字符串的比较&lt;/h1&gt;
+
+&lt;p&gt;平时编程的过程中，会出现很多的比较，比如在一个很常见的场景是对比用户输入的密码和数据库保存的密码的值是否匹配，如果匹配则允许用户登陆，反之则拒绝登陆。&lt;/p&gt;
+
+&lt;p&gt;在这种情况下，Java对比字符串是否匹配必须得使用&lt;code class=&quot;highlighter-rouge&quot;&gt;.equals()&lt;/code&gt;方法来对比两个字符串，可是为什么不能用&lt;code class=&quot;highlighter-rouge&quot;&gt;==&lt;/code&gt;来比较两个字符串呢？而且很多时候会发现，其实&lt;code class=&quot;highlighter-rouge&quot;&gt;==&lt;/code&gt;也能起到&lt;code class=&quot;highlighter-rouge&quot;&gt;相同效果&lt;/code&gt;，如&lt;/p&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;a&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;                        &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;a&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;                        &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;           &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// true&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;但是，如果是&lt;/p&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;a&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;            &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;a&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// false&lt;/span&gt;
+&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;a&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;a&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// true&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;此时的结果又显得让人很迷惑了…这是为什么呢？&lt;/p&gt;
+
+&lt;p&gt;在Java中，字符串是属于&lt;code class=&quot;highlighter-rouge&quot;&gt;引用类型&lt;/code&gt;，既当赋值语句将一个字符串赋值给一个变量如：&lt;/p&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;My String&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;此时，&lt;code class=&quot;highlighter-rouge&quot;&gt;s&lt;/code&gt;是指向&lt;code class=&quot;highlighter-rouge&quot;&gt;&quot;My String&quot;&lt;/code&gt;字符串的引用，&lt;code class=&quot;highlighter-rouge&quot;&gt;==&lt;/code&gt;操作符是对引用之间的比较，&lt;code class=&quot;highlighter-rouge&quot;&gt;(a)&lt;/code&gt;例的表达式在对比两个引用的值是否一致，在这里，其他的对象（除了字符串以外），都是返回&lt;code class=&quot;highlighter-rouge&quot;&gt;false&lt;/code&gt;的，两个指向相同字符串的引用之所以会得到&lt;code class=&quot;highlighter-rouge&quot;&gt;true&lt;/code&gt;是因为java内部的机制，叫做&lt;code class=&quot;highlighter-rouge&quot;&gt;String intern&lt;/code&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Interning of String in Java. String Interning is a method of storing only one copy of each distinct String Value, which must be immutable. By applying String. intern() on a couple of strings will ensure that all strings having the same contents share the same memory.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;简单来说就是，相同的字符串分享相同的内存，字符串其实只保留了一份。给变量直接初始化字符串字面量时，jvm会寻找有没有相同的字面量存在，有的话将这个引用返回。&lt;/p&gt;
+
+&lt;p&gt;所以当在&lt;code class=&quot;highlighter-rouge&quot;&gt;(b)&lt;/code&gt;行声明初始化同样的字面量时，Java底层的jvm发现&lt;code class=&quot;highlighter-rouge&quot;&gt;(c)&lt;/code&gt;行也初始化了相同的字符串，给到相同的引用返回，因此&lt;code class=&quot;highlighter-rouge&quot;&gt;(a)&lt;/code&gt;行才会有&lt;code class=&quot;highlighter-rouge&quot;&gt;true&lt;/code&gt;值返回。&lt;/p&gt;
+
+&lt;p&gt;而在&lt;code class=&quot;highlighter-rouge&quot;&gt;(d)&lt;/code&gt;行这里，是使用了&lt;code class=&quot;highlighter-rouge&quot;&gt;new&lt;/code&gt;操作符新建了一个字符串对象，这里的引用就是新的字符串对象的引用，虽然对象的值是相同的，但是&lt;code class=&quot;highlighter-rouge&quot;&gt;==&lt;/code&gt;操作符是比较的引用的值，因此这里会是&lt;code class=&quot;highlighter-rouge&quot;&gt;false&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;而使用&lt;code class=&quot;highlighter-rouge&quot;&gt;equals()&lt;/code&gt;方法时的结果是&lt;/p&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;a&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;a&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// false&lt;/span&gt;
+&lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;equals&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;));&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// true&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;所以对于&lt;code class=&quot;highlighter-rouge&quot;&gt;引用类型&lt;/code&gt;来说，要比较对象的值，需要用&lt;code class=&quot;highlighter-rouge&quot;&gt;equals()&lt;/code&gt;方法才是最合适的。&lt;/p&gt;</content><author><name></name></author><summary type="html">Java字符串的比较</summary></entry><entry><title type="html">关于Java的数据类型</title><link href="http://localhost:4000/2020/02/28/%E5%85%B3%E4%BA%8EJava%E7%9A%84%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86-copy.html" rel="alternate" type="text/html" title="关于Java的数据类型" /><published>2020-02-28T00:00:00+08:00</published><updated>2020-02-28T00:00:00+08:00</updated><id>http://localhost:4000/2020/02/28/%E5%85%B3%E4%BA%8EJava%E7%9A%84%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%20copy</id><content type="html" xml:base="http://localhost:4000/2020/02/28/%E5%85%B3%E4%BA%8EJava%E7%9A%84%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86-copy.html">&lt;h1 id=&quot;java的数据类型&quot;&gt;Java的数据类型&lt;/h1&gt;
+
+&lt;p&gt;Java的数据类型分为两种：&lt;code class=&quot;highlighter-rouge&quot;&gt;原始类型（Primitive type)&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;引用类型(Reference type)&lt;/code&gt;。&lt;br /&gt;
+原始类型：&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;byte: byte为8位的整数，可以保存8位的数字，范围是-128～127，默认为0&lt;/li&gt;
+  &lt;li&gt;char: char为16位的字符类型，保存的是所有的单字符ASCII字符，初始值为’\u0000’&lt;/li&gt;
+  &lt;li&gt;short: short为16为的整数，可以保存16位的数字，范围是-32768～32767，同样默认为0&lt;/li&gt;
+  &lt;li&gt;int: int是最为常用的整数类型，可以保存32位的数字，范围是-2147483648～2147483647，同样默认为0&lt;/li&gt;
+  &lt;li&gt;long: long是长整型，是64位的数字，范围不列举了，默认为0，需要注意在数字后加上L，虽然可以使用l标识，但是为了便于区分，最好使用L&lt;/li&gt;
+  &lt;li&gt;float: float是单精度浮点数，位数为32位，需要注意的是使用时需要在浮点数后加上f表明是float的类型，如&lt;code class=&quot;highlighter-rouge&quot;&gt;3.14f&lt;/code&gt;，默认为0.0&lt;/li&gt;
+  &lt;li&gt;double: double是双精度浮点数，位数为64位，相对于float来说使用更多，毕竟不用那么麻烦，默认为0.0&lt;/li&gt;
+  &lt;li&gt;boolean: boolean是布尔类型，只有两个值true和false，默认为false&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;引用类型:
+除了原始类型以外还有很多引用类型，与原始类型的区别主要是引用类型是引用的对象而不是本身的值。&lt;/p&gt;
+
+&lt;p&gt;区别：&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;引用类型并非预先定义在Java本身的（除了String），而原始类型本身被Java定义好。&lt;/li&gt;
+  &lt;li&gt;原始类型不能执行方法，但是引用类型具有方法的调用。所以如果要操作原始类型必须先包装成相对应的引用类型。&lt;/li&gt;
+  &lt;li&gt;原始类型始终具有初始值，如boolean的初始值为false，这是在对象中定义时才会有初始值，在方法中会抛出编译异常。而引用类型则是为null。&lt;/li&gt;
+  &lt;li&gt;原始类型的大小根据不同的数据类型具有分配，而引用类型的大小是固定的。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;整型byteshortintegerlong&quot;&gt;整型(Byte,Short,Integer,Long)&lt;/h2&gt;
+
+&lt;p&gt;整型的方法都差不多，直接一块说，首先需要知道的是，原始类型是没有方法的。所以如果需要对原始类型比如int做方法调用，需要将其包在对应的对象之中。&lt;br /&gt;
+如Integer.max(1, 2)能获得两个数之间的最大值，如果要将字符串的数字解析为整型，那么就需要使用Integer.parseInt()方法&lt;/p&gt;</content><author><name></name></author><summary type="html">Java的数据类型</summary></entry><entry><title type="html">对于电商购物车的一些见解</title><link href="http://localhost:4000/2020/02/08/%E5%AF%B9%E4%BA%8E%E7%94%B5%E5%95%86%E8%B4%AD%E7%89%A9%E8%BD%A6%E7%9A%84%E4%B8%80%E4%BA%9B%E8%A7%81%E8%A7%A3.html" rel="alternate" type="text/html" title="对于电商购物车的一些见解" /><published>2020-02-08T00:00:00+08:00</published><updated>2020-02-08T00:00:00+08:00</updated><id>http://localhost:4000/2020/02/08/%E5%AF%B9%E4%BA%8E%E7%94%B5%E5%95%86%E8%B4%AD%E7%89%A9%E8%BD%A6%E7%9A%84%E4%B8%80%E4%BA%9B%E8%A7%81%E8%A7%A3</id><content type="html" xml:base="http://localhost:4000/2020/02/08/%E5%AF%B9%E4%BA%8E%E7%94%B5%E5%95%86%E8%B4%AD%E7%89%A9%E8%BD%A6%E7%9A%84%E4%B8%80%E4%BA%9B%E8%A7%81%E8%A7%A3.html">&lt;h1 id=&quot;对于电商购物车的一些见解&quot;&gt;对于电商购物车的一些见解&lt;/h1&gt;
+
+&lt;p&gt;最近有做了两个电商的项目，第一个商城比较简单，是已登录用户保存到数据库的形式实现的，意味着所有购物车数据有和任意登录用户绑定，不存在临时购物车；第二个由于前人写的代码中，包含了临时购物车的数据库设计，因而顺水推舟，我加上了临时购物车的实现。&lt;/p&gt;
+
+&lt;p&gt;下面说说整个购物车实现由简单到复杂的过程，以及一些自己实现过程的心路历程。&lt;/p&gt;
+
+&lt;h2 id=&quot;购物车数据的形式&quot;&gt;购物车数据的形式&lt;/h2&gt;
+
+&lt;p&gt;在实现购物车数据的存储之前，要先要弄明白，购物车这样一个数据载体，存储的数据形式是怎样的。&lt;/p&gt;
+
+&lt;p&gt;拿最简单最必要的数据说起，那必须有商品ID&lt;code class=&quot;highlighter-rouge&quot;&gt;goods_id&lt;/code&gt;，商品数量&lt;code class=&quot;highlighter-rouge&quot;&gt;goods_num&lt;/code&gt;，考虑到商品存在多规格的可能，于是还得增加商品规格ID&lt;code class=&quot;highlighter-rouge&quot;&gt;item_id&lt;/code&gt;，为了查询索引和操作方便，每一条购物车数据要有一个唯一的键ID&lt;code class=&quot;highlighter-rouge&quot;&gt;id&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;所以一条购物车数据&lt;code class=&quot;highlighter-rouge&quot;&gt;cart&lt;/code&gt;的形式至少为：&lt;/p&gt;
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;购物车唯一ID&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;goods_id&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;商品ID&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;item_id&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;商品规格ID&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;goods_num&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;购物车商品数量&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;当然，上述是我的理解，在我同事的数据表设计中，还存在了一些“冗余”的字段：是商品和商品规格的一些信息。对此，我曾思考过，是否需要保存这些信息在购物车数据体中。&lt;/p&gt;
+
+&lt;p&gt;结果是我并不认为需要保存在其中。试想加载购物车的时候，获取的商品信息一定都要是最新的，不然用户会得到错误的信息。那么对比本次购物车的商品信息和上次的商品信息，无外乎两种可能性：&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;本次商品信息和上次一样&lt;/li&gt;
+  &lt;li&gt;本次商品信息和上次不一样&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;要是第一种情况，那么数据库保存的商品信息是可以使用的，由于和购物车本身的信息包含在一块，意味着可以直接使用，不需要额外的查询商品信息。但是这里问题是，如何知道此时的商品信息和上次的商品信息没有差异呢？还是需要去数据库查询吧！&lt;br /&gt;
+若是第二种情况，那好说了，就直接查询商品的信息，然后拼装到购物车中。&lt;/p&gt;
+
+&lt;p&gt;于是，综合看来，无论如何都要查询，那为何还需要保存冗余的商品信息呢？在我看来，有一种场景是需要之前的商品信息的，那就是购物车保存的商品元数据(&lt;code class=&quot;highlighter-rouge&quot;&gt;goods_id&lt;/code&gt;,&lt;code class=&quot;highlighter-rouge&quot;&gt;item_id&lt;/code&gt;)查询的结果不存在或者不可用。此时数据库返回的数据不能使用或者为空，这条数据不能删除。因此此条购物车数据显示的还是上次的商品信息，但是会给到前端一个特定的类似于不可用的标识（如下图）。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/disabled-cart.jpg&quot; alt=&quot;Disabled cart&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;这样的设计，在用户体验上应该是好很多的，不会存在用户添加到购物车的商品，在后台商品信息的变动或其他原因导致突然没有了信息。因此，在购物车中数据体加上商品的信息还是有一定的必要性，因此，最终购物车的数据体为：&lt;/p&gt;
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;购物车唯一ID&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;goods_id&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;商品ID&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;item_id&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;商品规格ID&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;goods_num&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;购物车商品数量&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;，&lt;/span&gt;
+    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;goods_name&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;商品名称&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;goods_image&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;商品图片&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;goods_price&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;商品单价&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 酌情增加需要的商品信息&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;不同用户状态下购物车数据的保存&quot;&gt;不同用户状态下购物车数据的保存&lt;/h2&gt;
+
+&lt;p&gt;###&lt;/p&gt;</content><author><name></name></author><summary type="html">对于电商购物车的一些见解</summary></entry><entry><title type="html">想要颠覆的一些执念</title><link href="http://localhost:4000/2020/02/02/%E6%83%B3%E8%A6%81%E9%A2%A0%E8%A6%86%E7%9A%84%E4%B8%80%E4%BA%9B%E6%89%A7%E5%BF%B5.html" rel="alternate" type="text/html" title="想要颠覆的一些执念" /><published>2020-02-02T00:00:00+08:00</published><updated>2020-02-02T00:00:00+08:00</updated><id>http://localhost:4000/2020/02/02/%E6%83%B3%E8%A6%81%E9%A2%A0%E8%A6%86%E7%9A%84%E4%B8%80%E4%BA%9B%E6%89%A7%E5%BF%B5</id><content type="html" xml:base="http://localhost:4000/2020/02/02/%E6%83%B3%E8%A6%81%E9%A2%A0%E8%A6%86%E7%9A%84%E4%B8%80%E4%BA%9B%E6%89%A7%E5%BF%B5.html">&lt;h1 id=&quot;想要颠覆的一些执念&quot;&gt;想要颠覆的一些执念&lt;/h1&gt;
+
+&lt;p&gt;成长以来，人的性格和追求似乎已经有了一个特定的走向和模样。有人是享乐主义：今朝有酒今朝醉。人活着就是这几十年，做个平凡的人，在当前没有太多变化的生活中一天天过去；有人是理想主义：此生活得可以不舒服，但不能没有自己的目标。类似于享乐主义，并非只是顺势而为，随波逐流，更重要的是在精神上去实现自我的价值。我想，我应该是一个理想主义者。&lt;/p&gt;
+
+&lt;p&gt;很讨厌自己几个大毛病，这些毛病看起来似乎都是没那么利害，甚至是有点勉励个人，但随着时间的推移和个人的观察发现，这问题很严重。&lt;/p&gt;
+
+&lt;h2 id=&quot;完美主义带来的拖延症&quot;&gt;完美主义带来的拖延症&lt;/h2&gt;
+
+&lt;p&gt;不知何时开始，我有了“不打无准备的仗”的信条，这个信条带来的，是无尽的拖延和极度的不自信。打个比方，就如现在写blog这件事，当初萌生想法是源于充实个人的职业简历，对于计算机和互联网技术的见解和思考。最开始确实是非常有干劲的，在知名域名网站买下了属于自己的域名，使用了用于搭建VPN的VPS作为网站服务器，不久后开始零零散散写了二三十篇blog，回想起当时的内容，大多是自己平时内心想法的挣扎还有不少碎言碎语。加上好友的评价加持“写的都是一些心里事”，似乎让我技术blog的初衷渐行渐远。&lt;/p&gt;
+
+&lt;p&gt;这一段写blog的时光基本上就告一段落了，反思起来，当时对自己的文章本身就没有很自信，以至于基本上没有把自己写的东西看过第二遍，在这一点上，这篇文章就很有问题了，这是后话。告一段落之后，投入新的工作想要避开之前用Wordpress搭建的blog网站，转而使用更为简单但可能能有更多人看到的GitHub Pages来写东西，可是从萌生这个想法，到如今写下真正意义上的第一篇GitHub Pages的blog，已经有了半年吧。&lt;/p&gt;
+
+&lt;p&gt;说了那么多前因后果，实际想说的在这后面，是从萌生要在GitHub Pages上写东西的这段时间，我心里是怎么想的。&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;想要把它这个机制搞明白了再开始。&lt;/li&gt;
+  &lt;li&gt;搞明白这个机制后，弄清楚markdown的语法再好好写。&lt;/li&gt;
+  &lt;li&gt;把特定的知识学习透彻了再去写。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;仔细看下来这三点，要完全达到这要花多少的时间，另外每个人的标准不同，更不用说附带而来的拖延症，以及平时上班带来的疲劳痛苦等外在因素，计划搁浅这么久并非偶然。&lt;/p&gt;
+
+&lt;p&gt;另外还有一件事，则是在leetcode做算法题，同样的也是报着先把leetcode中explore基础课程的内容学习完再规律的刷题，事实上是，从认识到要刷算法题开始到现在，总共也没能完成多少，explore也没能学完几课。&lt;/p&gt;
+
+&lt;p&gt;Java的学习也如出一辙，想要看完Java的官方文档，看了一遍多，并没有写出多少代码，而后逐渐荒废，在每日的焦虑和恍惚中度过自以为亏欠的一天。&lt;/p&gt;
+
+&lt;p&gt;其实一直并没有想要去质疑准备充分后再行动的想法，而且很多事情确实是要做到近乎完美才能够去实施，比如火箭发射、核电站的运转、大型项目的部署等，都是在不断的测试和准备后，才最终迈出那最为关键的一步。但这样的想法归在我这些事情上来，实属不正确，因为在学习的过程中，实践和理论想结合能不断巩固和加深理解，单纯的往脑子里面塞东西却不拿来为自己所用，凭借咱们碳基猴子的记性，记住了今天忘了昨天，再加上每日繁忙的工作生活，日新月异的变化，很难想象要重复多少这样的过程才能完成。&lt;/p&gt;
+
+&lt;p&gt;若逆转时间，在想要在GitHub Pages上写blog那个时候开始，就边写边尝试，如最开始时，把如何摸索部署和发布GitHub Pages的过程写下来，再到每日学习到的新东西梳理和整理，在这段时间，肯定有自己所掌握的markdown语法不够用的时候，再边查边用，反复迭代，想必不久就能掌握大多数常见的语法内容。&lt;/p&gt;
+
+&lt;p&gt;再回到刚开始写Java和刷题的时候，摆脱掉“完全掌握”的思想包袱，在一定程度上，自身其实已经对整体语法都有弄明白，只是因为记性不好加上部分技能使用较少，导致了忘了一些，这些并不是关键，关键的是去解决问题这个目标。做题对于每个程序员来说，不仅是leetcode上一个个accepted，更重要的是解决了一些可能今后才能遇到的问题，抑或是开阔了视野，只要坚持，许多心里面有鸡蛋忌惮的事，都会逐渐迎刃而解。&lt;/p&gt;
+
+&lt;h2 id=&quot;羞怯的表现欲&quot;&gt;羞怯的表现欲&lt;/h2&gt;
+
+&lt;p&gt;俗话说，酒香不怕巷子深。意思是如果酒酿得好，就在很深的巷子里，也会有人闻香知味，慕名前来品尝。对于人来说，就是不断加深个人能力，强到一定程度，就算自己不宣传，那也会有人慕名而来寻求帮助。&lt;/p&gt;
+
+&lt;p&gt;事实上，在每个人都能看明白自己只是一个平凡人的前提下，个人的综合能力素养，就很重要了，诚然能钻研到某个领域某个知识点中，像大树一样将根扎入地底会很牢固。但是在现实中，已经工作了人，很难有充裕的时间和精力集中于此，短时间无法达到一个超过大多数人的阶段，耳熟能详的“10000小时”理论，按照每天能挤出2到3小时的时间去研究来算，达到这样需要10年的时间，且不说会不会半途而废。要是人在达到了那个阶段再追求目标，再表现自己，岂不是晚了很多。更何况，在这段时间的成长，又何尝不是一种宝贵的经验和财富呢，这一段过程，其实是更为精彩的内容吧！&lt;/p&gt;
+
+&lt;p&gt;在我不成熟的观念中，不够完美，不够强大，不够优秀的东西，是不配表现出来的，是难堪的，是让人尴尬的，是丑陋的。事实上，这些都没错，但是，在意识到这些的前提下，在秉持着改善这些处境的心境下，这些都是暂时的。看清自己，才能够向前看，丑陋又如何，不够完美又如何，随着我的成长，这些会越来越好的，大胆的表现出来，大胆的告诉他人这是现在的我，不过这也只是暂时的我，接下来，我会更加优秀，在今后，我要让你们看到我的变化，让各位看到我的成长。&lt;/p&gt;
+
+&lt;p&gt;所以，不如大胆的表现出来。唱歌什么的，有人唱的好，总有人唱的比我差，只要场合合适，放轻松就可以了；写blog，写的东西只要是来自于个人的仔细思考，对于生活、工作、学习的见解，记录下来，回头再看总是收获，给他人看到，若是批评虚心接受，若是赞扬，大方的接受。没什么大不了的。&lt;/p&gt;
+
+&lt;h2 id=&quot;畏难的心理&quot;&gt;畏难的心理&lt;/h2&gt;
+
+&lt;p&gt;畏难的心理是指，在不熟悉的领域和项目来临之前，一直逃避或者夸大了它的难度，然后迟迟没有行动去解决它。&lt;/p&gt;
+
+&lt;p&gt;具体表现在工作中，由于公司是外包公司，这次的项目可能是电商，下一次的项目可能就换成了社交平台。这样的差别，在正常非外包公司，都是有专人来做的，每个领域的人都有专精的部分。所以每每开始一种新的类型的项目时，我的心理就开始惶恐，觉得很麻烦、很复杂、很难去实现。&lt;/p&gt;
+
+&lt;p&gt;在这一段时间中，我总是很焦虑的。项目会一直被催，而我自己有时也会因为部分地方卡壳导致心理压力很大。内忧外患的情况下，整个人的状态简直是灾难。好在是随着时间的推移，项目也逐渐推进，到慢慢的做完，且不说质量如何，最终还是会做出来。&lt;/p&gt;
+
+&lt;p&gt;总结经验是怎样呢？事实上，每个人都是害怕未知的，心态不一样，面对未知的行动也就有很多差异了。正所谓，挑战伴随着机遇。我想是没错的，在未知的东西来临时，扩宽了自己的视野，同时带来的困难被克服后，也是一段珍贵的经验和历练。至于中间难受和压力，那要在面临之前就要做好心理准备，不要放大了困难，和低估了自身的能力。&lt;/p&gt;
+
+&lt;p&gt;说起来，我真的会常常的妄自菲薄，觉得自己很多地方还不够好，以至于不能够去担当。从一个角度来看，这是对自身不足的地方很客观的认识；另一个角度看来，其实没有那么严重。这个世界的知识是无穷无尽的，每个人都有不会和不懂的地方，正所谓不懂没关系，如果能面对它时不逃避、不退让，尽力去解决，那也是不错的。然后在此基础之上，继续努力，总结归纳，向着目标无限逼近，那就很好。&lt;/p&gt;
+
+&lt;h2 id=&quot;总结&quot;&gt;总结&lt;/h2&gt;
+
+&lt;p&gt;前几日萌生的想法是，人活着就是要吃一些苦，多折腾一下自己。当然这些苦这些折腾并非来自于肉体，而是来源于精神。比如，多和害怕的东西面对；和困难的问题拉锯；和不熟悉的人打开一个话匣子。太多我们不愿去面对和经历的东西，很可能就是改变自己，让自身变得更好的一个机会。&lt;/p&gt;
+
+&lt;p&gt;而且，就算没有带着功利的心和有目的的态度做那些事。在人生这个旅程之中，也有不少能够经历的东西。人活着只有一次，多感受、多经历、多尝试，又何乐而不为呢？&lt;/p&gt;</content><author><name></name></author><summary type="html">想要颠覆的一些执念</summary></entry></feed>
