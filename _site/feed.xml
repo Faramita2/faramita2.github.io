@@ -1,4 +1,28 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-03-21T22:06:14+08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Coding in life</title><subtitle>Coding for fun, coding for job, coding for change the world.</subtitle><entry><title type="html">伪静态是什么玩意</title><link href="http://localhost:4000/2020/03/05/%E4%BC%AA%E9%9D%99%E6%80%81%E6%98%AF%E4%BB%80%E4%B9%88%E7%8E%A9%E6%84%8F.html" rel="alternate" type="text/html" title="伪静态是什么玩意" /><published>2020-03-05T00:00:00+08:00</published><updated>2020-03-05T00:00:00+08:00</updated><id>http://localhost:4000/2020/03/05/%E4%BC%AA%E9%9D%99%E6%80%81%E6%98%AF%E4%BB%80%E4%B9%88%E7%8E%A9%E6%84%8F</id><content type="html" xml:base="http://localhost:4000/2020/03/05/%E4%BC%AA%E9%9D%99%E6%80%81%E6%98%AF%E4%BB%80%E4%B9%88%E7%8E%A9%E6%84%8F.html">&lt;p&gt;一直有看到“伪静态”这个词出现在很多地方，比如nginx服务器配置的地方就有，但是没能理解，这个玩意是干什么的。有言道“不懂就问问就懂，无知就学学就知”，今天总算是查清楚并大概搞明白这玩意是什么，作用是什么。&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-03-21T22:57:33+08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Coding life</title><subtitle>Coding for fun, coding for life, coding for change the world.</subtitle><entry><title type="html">web开发基本组件之消息队列</title><link href="http://localhost:4000/2020/03/21/web%E5%BC%80%E5%8F%91%E5%9F%BA%E6%9C%AC%E7%BB%84%E4%BB%B6%E4%B9%8B%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97.html" rel="alternate" type="text/html" title="web开发基本组件之消息队列" /><published>2020-03-21T00:00:00+08:00</published><updated>2020-03-21T00:00:00+08:00</updated><id>http://localhost:4000/2020/03/21/web%E5%BC%80%E5%8F%91%E5%9F%BA%E6%9C%AC%E7%BB%84%E4%BB%B6%E4%B9%8B%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97</id><content type="html" xml:base="http://localhost:4000/2020/03/21/web%E5%BC%80%E5%8F%91%E5%9F%BA%E6%9C%AC%E7%BB%84%E4%BB%B6%E4%B9%8B%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97.html">&lt;blockquote&gt;
+  &lt;p&gt;前些日子，在做电商后台发放优惠券的功能时，和同事说到做这个的时候，同事说道：“一次性发放这么多优惠券出去，对数据库会操作很多吧，你可能要使用&lt;code class=&quot;highlighter-rouge&quot;&gt;消息队列&lt;/code&gt;延迟执行任务”。由此开启了我对&lt;code class=&quot;highlighter-rouge&quot;&gt;消息队列&lt;/code&gt;的认识和使用。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=&quot;什么是消息队列message-queue&quot;&gt;什么是消息队列(message queue)？&lt;/h1&gt;
+
+&lt;p&gt;这里首先要分解开来，消息队列分为消息(message)和队列(queue)两部分，这两部分的定义单独拆开来的含义是什么呢。&lt;/p&gt;
+
+&lt;p&gt;消息(message)是指程序之间传输的一种约定好格式的数据。有可能是一个需要即将执行的任务，有可能是完成任务的数据，也有可能是一段纯文本。&lt;/p&gt;
+
+&lt;p&gt;队列(queue)是一种数据结构，其最基本的特点是&lt;code class=&quot;highlighter-rouge&quot;&gt;先进先出&lt;/code&gt;(FIFO: First In First out)。&lt;/p&gt;
+
+&lt;p&gt;综合上述两者组成的基本概念，可以得知，消息队列(message queue)是一种程序之间传输消息或者下发任务等用途的队列，在消息队列中，产生消息的程序方一般被称为生产者(producer)，而接收消息(数据)或者处理任务的程序方被称为消费者(consumer)。&lt;/p&gt;
+
+&lt;h1 id=&quot;消息队列的特性feature&quot;&gt;消息队列的特性(feature)?&lt;/h1&gt;
+
+&lt;p&gt;消息队列(message queue)最重要的特性就是提供了一种程序之间异步通讯的协议。在一个很通常的例子邮件可以找到消息队列的影子。试想，每当发送或接收一封邮件时，发送方或接收方是否需要同时在线在客户端等着呢？不需要。为什么？在这种情况下，邮件被发送出来，都在服务器上被保存起来，放入消息队列等待客户端上线或者手动拉取时，才被消息队列的弹出，并下发到用户客户端。&lt;/p&gt;
+
+&lt;p&gt;可以见得消息队列很明显的一个地方在于&lt;code class=&quot;highlighter-rouge&quot;&gt;异步&lt;/code&gt;，应用程序之间不需要同步的响应和处理，继续抽象来，这就是解耦(decouple)。因为在一定意义上，当两个应用之间不需要同步去执行和响应，可以理解为两者的关系淡化，分开去处理和实现。&lt;/p&gt;
+
+&lt;p&gt;在此基础之上，消息队列解耦了许多大型应用子应用的之间的关联，使它们之间不再那么紧密，又有了很多的想象空间。比如，拆分更细致之后，开发的分工更为明确，由于解耦了复杂的应用，故障和bug的数量会下降，专注于某个模块会更细致，开发的效率也会提升。&lt;/p&gt;
+
+&lt;h1 id=&quot;消息队列的应用use-case&quot;&gt;消息队列的应用(use case)？&lt;/h1&gt;
+
+&lt;p&gt;to be continue…&lt;/p&gt;</content><author><name></name></author><summary type="html">前些日子，在做电商后台发放优惠券的功能时，和同事说到做这个的时候，同事说道：“一次性发放这么多优惠券出去，对数据库会操作很多吧，你可能要使用消息队列延迟执行任务”。由此开启了我对消息队列的认识和使用。</summary></entry><entry><title type="html">伪静态是什么玩意</title><link href="http://localhost:4000/2020/03/05/%E4%BC%AA%E9%9D%99%E6%80%81%E6%98%AF%E4%BB%80%E4%B9%88%E7%8E%A9%E6%84%8F.html" rel="alternate" type="text/html" title="伪静态是什么玩意" /><published>2020-03-05T00:00:00+08:00</published><updated>2020-03-05T00:00:00+08:00</updated><id>http://localhost:4000/2020/03/05/%E4%BC%AA%E9%9D%99%E6%80%81%E6%98%AF%E4%BB%80%E4%B9%88%E7%8E%A9%E6%84%8F</id><content type="html" xml:base="http://localhost:4000/2020/03/05/%E4%BC%AA%E9%9D%99%E6%80%81%E6%98%AF%E4%BB%80%E4%B9%88%E7%8E%A9%E6%84%8F.html">&lt;p&gt;一直有看到“伪静态”这个词出现在很多地方，比如nginx服务器配置的地方就有，但是没能理解，这个玩意是干什么的。有言道“不懂就问问就懂，无知就学学就知”，今天总算是查清楚并大概搞明白这玩意是什么，作用是什么。&lt;/p&gt;
 
 &lt;h1 id=&quot;伪静态是什么意思&quot;&gt;伪静态是什么意思&lt;/h1&gt;
 
