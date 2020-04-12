@@ -1,4 +1,143 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-03-22T19:50:33+08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Coding life</title><subtitle>Coding for fun, coding for life, coding for change the world.</subtitle><entry><title type="html">web开发基本组件之消息队列</title><link href="http://localhost:4000/2020/03/21/web%E5%BC%80%E5%8F%91%E5%9F%BA%E6%9C%AC%E7%BB%84%E4%BB%B6%E4%B9%8B%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97.html" rel="alternate" type="text/html" title="web开发基本组件之消息队列" /><published>2020-03-21T00:00:00+08:00</published><updated>2020-03-21T00:00:00+08:00</updated><id>http://localhost:4000/2020/03/21/web%E5%BC%80%E5%8F%91%E5%9F%BA%E6%9C%AC%E7%BB%84%E4%BB%B6%E4%B9%8B%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97</id><content type="html" xml:base="http://localhost:4000/2020/03/21/web%E5%BC%80%E5%8F%91%E5%9F%BA%E6%9C%AC%E7%BB%84%E4%BB%B6%E4%B9%8B%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97.html">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-04-12T21:58:46+08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Coding life</title><subtitle>Coding for fun, coding for life, coding for change the world.</subtitle><entry><title type="html">Laravel学习之事件机制</title><link href="http://localhost:4000/2020/04/01/Laravel%E5%AD%A6%E4%B9%A0%E4%B9%8B%E4%BA%8B%E4%BB%B6%E6%9C%BA%E5%88%B6.html" rel="alternate" type="text/html" title="Laravel学习之事件机制" /><published>2020-04-01T00:00:00+08:00</published><updated>2020-04-01T00:00:00+08:00</updated><id>http://localhost:4000/2020/04/01/Laravel%E5%AD%A6%E4%B9%A0%E4%B9%8B%E4%BA%8B%E4%BB%B6%E6%9C%BA%E5%88%B6</id><content type="html" xml:base="http://localhost:4000/2020/04/01/Laravel%E5%AD%A6%E4%B9%A0%E4%B9%8B%E4%BA%8B%E4%BB%B6%E6%9C%BA%E5%88%B6.html">&lt;blockquote&gt;
+  &lt;p&gt;前些日子，在做一个很简单的匿名留言功能时，需要让留言者在留言时带上手机号方便联系，而为了验证手机号正确性，使用了短信验证码的机制。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;在这里可以想到，每当表单提交到服务器时，会对提交上来的数据做验证，特别是手机号和对应的验证码的正确性，验证通过后则将提交的留言内容写入数据库。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;这里刚开始的时候我有忘记做验证码的删除，导致的结果是，一个用户发送了一次验证码可以提交很多次留言，所以为了防止这种情况的发生，需要对验证正确并写入成功的那次验证码做删除。一开始，我是直接用一个if语句实现的，但是秉持着不断改进和使用一些框架内置更好的实现手段，最终使用了laravel的事件来完成。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;不使用事件的实现方式&quot;&gt;不使用事件的实现方式&lt;/h2&gt;
+&lt;p&gt;在不习惯使用事件或者对于这种概念的认知不是很深刻的时候，对于这种情况，很多时候都是使用if条件判断实现的。比如发货后给用户发送邮件，在业务代码中可能是这样:&lt;/p&gt;
+
+&lt;div class=&quot;language-php highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// 订单业务类 Order.php&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;ship&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 对于发货的业务代码&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$order&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;shipCompleted&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;Mail&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;send&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$order&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;email&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'发货成功'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 其他的代码&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;用一种顺序流程方式去实现是很自然的，特别是对于刚开始编码设计或者说经验不够充分时更甚，这样符合直觉。但是对于编写业务代码来说，就不那么便利了。因为整个订单发货的业务代码通常会做许多事情，然后对于发货之后要做的事情，也存在很多的扩展功能，也许某一天，除了发email给用户，还要发短信给用户；那么那个if语句就变长了，冗长的代码段存在的隐患会很大，在这种扩展可能性很大的地方经常出现。&lt;/p&gt;
+
+&lt;p&gt;这里最开始能做的事情是，将if语句中的代码抽成一个方法，比如称之为&lt;code class=&quot;highlighter-rouge&quot;&gt;afterSend()&lt;/code&gt;，那么这里的方法就可以改写为:&lt;/p&gt;
+&lt;div class=&quot;language-php highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// 订单业务类 Order.php&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;ship&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 对于发货的业务代码&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$order&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;shipCompleted&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nv&quot;&gt;$this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;afterShip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$order&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 其他的代码&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;afterShip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$order&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// do something like mail to user&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;Mail&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;send&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$order&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;email&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'发货成功'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;但是呢，真正的业务逻辑，不仅是有发货之后发邮箱发短信、还会有取消订单后释放库存、完成订单后提醒评价、完成订单后发放优惠券等等许多的操作，这些操作都有着相似的特征：在某一个操作完成后被触发。如果要通过上述的方式去实现，那么可能会越来越冗长，各种条件判断。&lt;/p&gt;
+
+&lt;h2 id=&quot;aopaspect-oriented-programming面向切面编程&quot;&gt;aop（aspect-oriented programming）面向切面编程&lt;/h2&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;面向切面的程序设计（Aspect-oriented programming，AOP，又译作面向方面的程序设计、剖面導向程式設計）是计算机科学中的一种程序设计范型，旨在将横切关注点与业务主体进行进一步分离，以提高程序代码的模块化程度。通过在现有代码基础上增加额外的通知（Advice）机制，能够对被声明为“切点（Pointcut）”的代码块进行统一管理与装饰，如“对所有方法名以‘set*’开头的方法添加后台日志”。该思想使得开发人员能够将与代码核心业务逻辑关系不那么密切的功能（如日志功能）添加至程序中，同时又不降低业务代码的可读性。面向切面的程序设计思想也是面向切面软件开发的基础。
+维基对于aop的定义如此，在面向切面编程中，程序的许多地方当出现了逻辑不那么密切的功能，可以通过“切面”的方式，将其抽离出来，更好的解耦和管理代码，也有助于扩展功能，而不会影响到原有的逻辑。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;事件机制&quot;&gt;事件机制&lt;/h2&gt;
+&lt;p&gt;在计算机科学中，事件是一个动作或者被软件能识别发生的过程，经常发生在环境外部，并有可能会被软件处理。事件能够被软件自身触发和生成，也有可能由用户行为产生。
+换言之，事件是一种抽象的行为，并非是特定的一种技术，它是被软件实现者所定义出来的。任何在软件中执行的动作，都能够被理解为事件，而事件往往会触发一系列的结果。比如在浏览器中，点击一个按钮触发了按钮的点击事件，由web开发者事先定义好的事件监听者接收并处理事件，返回处理后的结果。
+事件机制有助于分离代码之间的逻辑，以一种更为高效的方式去管理和编写代码，在面向对象程序中，使用事件机制编写的代码更有助于维护和分离代码结构。
+在我看来，事件机制算是aop的一个子集，它实现了aop这种编程思想，但是aop的实现并不是只有事件机制，后续应该对他们的理解会更深。&lt;/p&gt;
+
+&lt;p&gt;一般来说，面向对象程序的事件都有三个组成部分，它们分别是：事件源、事件监听者、接口。&lt;/p&gt;
+
+&lt;p&gt;事件监听者需要绑定所监听的事件源，并且实现各事件相应的接口处理对应事件。&lt;/p&gt;
+
+&lt;h2 id=&quot;laravel事件监听者&quot;&gt;Laravel事件监听者&lt;/h2&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;Events serve as a great way to decouple various aspects of your application, since a single event can have multiple listeners that do not depend on each other. For example, you may wish to send a Slack notification to your user each time an order has shipped. Instead of coupling your order processing code to your Slack notification code, you can raise an OrderShipped event, which a listener can receive and transform into a Slack notification.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;得益于单个事件能够由多个事件独立的事件监听者，事件提供了一种解耦应用多个切面的方式。
+在laravel文档对于事件的介绍中，用到了订单发货这样一个例子来说明，提到相比将订单发货通知直接写在订单发货的逻辑中，利用事件将以上过程解耦成事件和事件监听者，以及通知，能够使代码更为健壮。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;总算是到了本文的主题了，laravel的事件机制，由前面的事件机制可知，面向对象编程的事件有事件源、事件监听者、接口三要素组成，在laravel里，这三者被简化成了事件和事件监听者两个要素，我们只需要定义好这两样，并且按需要去绑定好它们的关系就可以了。比如说，在订单发货这个事件之后，需要发送邮件通知提醒用户和发送应用内通知，那么这里就只需要定义好&lt;code class=&quot;highlighter-rouge&quot;&gt;AfterShippedEvent&lt;/code&gt;事件并将&lt;code class=&quot;highlighter-rouge&quot;&gt;SendEmailToUser&lt;/code&gt;监听者和&lt;code class=&quot;highlighter-rouge&quot;&gt;SendNotificationToUser&lt;/code&gt;监听者与之绑定起来，一起注册到&lt;code class=&quot;highlighter-rouge&quot;&gt;EventServiceProvider&lt;/code&gt;中，再到订单发货业务逻辑中触发该事件，就完成了事件的定义和触发。&lt;/p&gt;
+
+&lt;h3 id=&quot;事件和事件监听者绑定和注册&quot;&gt;事件和事件监听者绑定和注册&lt;/h3&gt;
+&lt;p&gt;laravel对于事件和事件监听者可以在不同需求情况下绑定。不同的绑定方式带来的效果是一样的，就是对于代码的维护和管理不一样，看情况使用。&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;第一种方式，直接在&lt;code class=&quot;highlighter-rouge&quot;&gt;EventServiceProvider&lt;/code&gt;的&lt;code class=&quot;highlighter-rouge&quot;&gt;$listen&lt;/code&gt;属性中通过事件和事件监听者的完整类名写入注册到应用中，如:
+    &lt;div class=&quot;language-php highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$listen&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+ &lt;span class=&quot;s1&quot;&gt;'App\Events\AfterShippedEvent'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+     &lt;span class=&quot;s1&quot;&gt;'App\Listeners\SendEmailToUser'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+     &lt;span class=&quot;s1&quot;&gt;'App\Listeners\SendNotificationToUser'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+    &lt;p&gt;然后，通过Artisan命令行工具执行&lt;code class=&quot;highlighter-rouge&quot;&gt;php artisan event:generate&lt;/code&gt;，laravel将自动解析&lt;code class=&quot;highlighter-rouge&quot;&gt;$listen&lt;/code&gt;属性生成相应事件和事件监听者。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;第二种方式，直接在&lt;code class=&quot;highlighter-rouge&quot;&gt;EventServiceProvider&lt;/code&gt;的&lt;code class=&quot;highlighter-rouge&quot;&gt;boot()&lt;/code&gt;方法中使用闭包去注册该事件并绑定所触发的行为。
+    &lt;div class=&quot;language-php highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;boot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+ &lt;span class=&quot;k&quot;&gt;parent&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;boot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+
+ &lt;span class=&quot;nx&quot;&gt;Event&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;listen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'AfterShipped'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$bar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+     &lt;span class=&quot;c1&quot;&gt;// send email to user&lt;/span&gt;
+     &lt;span class=&quot;c1&quot;&gt;// send notification to user&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+    &lt;p&gt;在这里就没有事件和事件监听者这两个类了，这二者被压缩为一个闭包函数，在一些简单的事件行为中比如记录日志，就很合适，精简而且易读。然后这个方法文档中说可以直接使用通配符来监听所有的事件，闭包中获得的第一个参数是事件的名称，第二个参数是触发事件时的数据。&lt;/p&gt;
+    &lt;div class=&quot;language-php highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &lt;span class=&quot;nx&quot;&gt;Event&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;listen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'*'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$eventName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;array&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+     &lt;span class=&quot;c1&quot;&gt;// code&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+    &lt;p&gt;这种通配符去绑定注册事件的方式暂时感觉不太棒，不够清晰和直观，除非是特别通用的逻辑，否则我想不会使用到这一块。反过来想，当特别通用的，如果是每个事件都要记录日志，或者对事件执行的事件做一个记录，那么这样就会精简了很多代码；抑或是批量对大量的相同类型事件重复代码，也可以在这里截获并执行。这样看来还是有一定的用处的。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;第三种方式，使用Artisan命令行工具手动创建。
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; php artisan make:event AfterShipped
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; php artisan make:listener SendEmailToUser // 这里可以加上参数-e AfterShipped指定事件监听者所绑定的事件
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; php artisan make:listener SendNotificationToUser
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+    &lt;p&gt;然后再到&lt;code class=&quot;highlighter-rouge&quot;&gt;EventServiceProvider&lt;/code&gt;中注册&lt;code class=&quot;highlighter-rouge&quot;&gt;AfterShipped&lt;/code&gt;事件，看起来和第一种方式有挺多相似之处，这种方式应该是比较入门和清晰易懂一点，在逻辑上容易理解。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;第四种方式，使用laravel的事件发现机制自动绑定和注册。这种方式我觉得非常得不好，因为不够直观，事件发现的机制意思就是框架根据类的定义直接去绑定，不需要在&lt;code class=&quot;highlighter-rouge&quot;&gt;EventServiceProvider&lt;/code&gt;中手动绑定，只需要在&lt;code class=&quot;highlighter-rouge&quot;&gt;Listeners&lt;/code&gt;文件夹或者配置的监听者文件夹下，定义好具有&lt;code class=&quot;highlighter-rouge&quot;&gt;handle()&lt;/code&gt;方法并直接显示类型声明某个类作为&lt;code class=&quot;highlighter-rouge&quot;&gt;handle()&lt;/code&gt;方法的参数，再到&lt;code class=&quot;highlighter-rouge&quot;&gt;EventServiceProvider&lt;/code&gt;重写&lt;code class=&quot;highlighter-rouge&quot;&gt;shouldDiscoverEvents()&lt;/code&gt;方法使其返回&lt;code class=&quot;highlighter-rouge&quot;&gt;true&lt;/code&gt;，即可开启事件发现。&lt;br /&gt;
+这样的好处我暂时没有想到有什么，但是就目前初步的感觉就是，非常的不直观，虽然说基本上事件监听者都会放在&lt;code class=&quot;highlighter-rouge&quot;&gt;Listeners&lt;/code&gt;文件夹下面，通过定义了&lt;code class=&quot;highlighter-rouge&quot;&gt;handle()&lt;/code&gt;方法可以判断出怎么回事，对于团队开发来说，不够直观的东西，经常会造成误会和不解。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;laravel事件&quot;&gt;laravel事件&lt;/h3&gt;
+&lt;p&gt;绑定并注册好事件和事件监听者后，这里来看下在laravel中事件。在laravel中，事件其实就是一个携带了该事件相关数据的容器，比如当订单发货后会触发一个订单发货的事件&lt;code class=&quot;highlighter-rouge&quot;&gt;AfterShipped&lt;/code&gt;，那么按逻辑来说&lt;code class=&quot;highlighter-rouge&quot;&gt;AfterShipped&lt;/code&gt;这个事件触发时会携带着触发该事件的订单数据，所以根据该事件的组成，可以按需的构造这个事件类。在这里&lt;code class=&quot;highlighter-rouge&quot;&gt;AfterShipped&lt;/code&gt;类初始化大概是这样:&lt;/p&gt;
+&lt;div class=&quot;language-php highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;AfterShipped&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;protected&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Order&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$order&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;__construct&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Order&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$order&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nv&quot;&gt;$this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;order&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$order&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;laravel事件监听者-1&quot;&gt;laravel事件监听者&lt;/h3&gt;
+&lt;p&gt;事件弄清楚了，接下来是事件监听者。这里事件监听者就是拿着事件数据容器做操作的类，比如刚才的发货后给用户发邮件的&lt;code class=&quot;highlighter-rouge&quot;&gt;SendEmailToUser&lt;/code&gt;事件监听者，根据事件监听者的定义，这个类需要做的就是拿到事件中订单数据，发送email给用户。&lt;/p&gt;
+&lt;div class=&quot;language-php highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;handle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;OrderShipped&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// Access the order using $event-&amp;gt;order...&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// Send email to user&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;最后&quot;&gt;最后&lt;/h2&gt;
+&lt;p&gt;事件机制是一种编程思想，在面向对象编程中成为了很好的解耦手段，将业务的逻辑代码分离开来，分成了事件的不同组成。可能最开始使用的时候，会在理解上，不同于平时按顺序执行的编码逻辑，但是在不断实践的过程中，会逐步发现和体会到其中的好处，能够以软件应用各个切面的角度去思考，并且在各个切面上利于扩展和维护，关注点更为集中。&lt;/p&gt;</content><author><name></name></author><summary type="html">前些日子，在做一个很简单的匿名留言功能时，需要让留言者在留言时带上手机号方便联系，而为了验证手机号正确性，使用了短信验证码的机制。</summary></entry><entry><title type="html">web开发基本组件之消息队列</title><link href="http://localhost:4000/2020/03/21/web%E5%BC%80%E5%8F%91%E5%9F%BA%E6%9C%AC%E7%BB%84%E4%BB%B6%E4%B9%8B%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97.html" rel="alternate" type="text/html" title="web开发基本组件之消息队列" /><published>2020-03-21T00:00:00+08:00</published><updated>2020-03-21T00:00:00+08:00</updated><id>http://localhost:4000/2020/03/21/web%E5%BC%80%E5%8F%91%E5%9F%BA%E6%9C%AC%E7%BB%84%E4%BB%B6%E4%B9%8B%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97</id><content type="html" xml:base="http://localhost:4000/2020/03/21/web%E5%BC%80%E5%8F%91%E5%9F%BA%E6%9C%AC%E7%BB%84%E4%BB%B6%E4%B9%8B%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97.html">&lt;blockquote&gt;
   &lt;p&gt;前些日子，在做电商后台发放优惠券的功能时，和同事说到做这个的时候，同事说道：“一次性发放这么多优惠券出去，对数据库会操作很多吧，你可能要使用&lt;code class=&quot;highlighter-rouge&quot;&gt;消息队列&lt;/code&gt;延迟执行任务”。由此开启了我对&lt;code class=&quot;highlighter-rouge&quot;&gt;消息队列&lt;/code&gt;的认识和使用。&lt;/p&gt;
 &lt;/blockquote&gt;
 
