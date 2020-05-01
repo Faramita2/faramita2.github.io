@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-04-12T21:58:46+08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Coding life</title><subtitle>Coding for fun, coding for life, coding for change the world.</subtitle><entry><title type="html">Laravel学习之事件机制</title><link href="http://localhost:4000/2020/04/01/Laravel%E5%AD%A6%E4%B9%A0%E4%B9%8B%E4%BA%8B%E4%BB%B6%E6%9C%BA%E5%88%B6.html" rel="alternate" type="text/html" title="Laravel学习之事件机制" /><published>2020-04-01T00:00:00+08:00</published><updated>2020-04-01T00:00:00+08:00</updated><id>http://localhost:4000/2020/04/01/Laravel%E5%AD%A6%E4%B9%A0%E4%B9%8B%E4%BA%8B%E4%BB%B6%E6%9C%BA%E5%88%B6</id><content type="html" xml:base="http://localhost:4000/2020/04/01/Laravel%E5%AD%A6%E4%B9%A0%E4%B9%8B%E4%BA%8B%E4%BB%B6%E6%9C%BA%E5%88%B6.html">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-04-12T22:10:09+08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Coding life</title><subtitle>Coding for fun, coding for life, coding for change the world.</subtitle><entry><title type="html">Laravel学习之事件机制</title><link href="http://localhost:4000/2020/04/01/Laravel%E5%AD%A6%E4%B9%A0%E4%B9%8B%E4%BA%8B%E4%BB%B6%E6%9C%BA%E5%88%B6.html" rel="alternate" type="text/html" title="Laravel学习之事件机制" /><published>2020-04-01T00:00:00+08:00</published><updated>2020-04-01T00:00:00+08:00</updated><id>http://localhost:4000/2020/04/01/Laravel%E5%AD%A6%E4%B9%A0%E4%B9%8B%E4%BA%8B%E4%BB%B6%E6%9C%BA%E5%88%B6</id><content type="html" xml:base="http://localhost:4000/2020/04/01/Laravel%E5%AD%A6%E4%B9%A0%E4%B9%8B%E4%BA%8B%E4%BB%B6%E6%9C%BA%E5%88%B6.html">&lt;blockquote&gt;
   &lt;p&gt;前些日子，在做一个很简单的匿名留言功能时，需要让留言者在留言时带上手机号方便联系，而为了验证手机号正确性，使用了短信验证码的机制。&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -44,10 +44,9 @@
 &lt;p&gt;但是呢，真正的业务逻辑，不仅是有发货之后发邮箱发短信、还会有取消订单后释放库存、完成订单后提醒评价、完成订单后发放优惠券等等许多的操作，这些操作都有着相似的特征：在某一个操作完成后被触发。如果要通过上述的方式去实现，那么可能会越来越冗长，各种条件判断。&lt;/p&gt;
 
 &lt;h2 id=&quot;aopaspect-oriented-programming面向切面编程&quot;&gt;aop（aspect-oriented programming）面向切面编程&lt;/h2&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;面向切面的程序设计（Aspect-oriented programming，AOP，又译作面向方面的程序设计、剖面導向程式設計）是计算机科学中的一种程序设计范型，旨在将横切关注点与业务主体进行进一步分离，以提高程序代码的模块化程度。通过在现有代码基础上增加额外的通知（Advice）机制，能够对被声明为“切点（Pointcut）”的代码块进行统一管理与装饰，如“对所有方法名以‘set*’开头的方法添加后台日志”。该思想使得开发人员能够将与代码核心业务逻辑关系不那么密切的功能（如日志功能）添加至程序中，同时又不降低业务代码的可读性。面向切面的程序设计思想也是面向切面软件开发的基础。
-维基对于aop的定义如此，在面向切面编程中，程序的许多地方当出现了逻辑不那么密切的功能，可以通过“切面”的方式，将其抽离出来，更好的解耦和管理代码，也有助于扩展功能，而不会影响到原有的逻辑。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;面向切面的程序设计（Aspect-oriented programming，AOP，又译作面向方面的程序设计、剖面導向程式設計）是计算机科学中的一种程序设计范型，旨在将横切关注点与业务主体进行进一步分离，以提高程序代码的模块化程度。通过在现有代码基础上增加额外的通知（Advice）机制，能够对被声明为“切点（Pointcut）”的代码块进行统一管理与装饰，如“对所有方法名以‘set*’开头的方法添加后台日志”。该思想使得开发人员能够将与代码核心业务逻辑关系不那么密切的功能（如日志功能）添加至程序中，同时又不降低业务代码的可读性。面向切面的程序设计思想也是面向切面软件开发的基础。&lt;/p&gt;
+
+&lt;p&gt;维基对于aop的定义如此，在面向切面编程中，程序的许多地方当出现了逻辑不那么密切的功能，可以通过“切面”的方式，将其抽离出来，更好的解耦和管理代码，也有助于扩展功能，而不会影响到原有的逻辑。&lt;/p&gt;
 
 &lt;h2 id=&quot;事件机制&quot;&gt;事件机制&lt;/h2&gt;
 &lt;p&gt;在计算机科学中，事件是一个动作或者被软件能识别发生的过程，经常发生在环境外部，并有可能会被软件处理。事件能够被软件自身触发和生成，也有可能由用户行为产生。
